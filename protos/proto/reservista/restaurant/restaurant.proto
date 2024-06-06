@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package restaurant;
+
+option go_package = "aidostt.reservista.proto_restaurant.v1;proto_restaurant";
+
+
+service Restaurant {
+  rpc AddRestaurant (RestaurantObject) returns (StatusResponse);
+  rpc GetAllRestaurants (Empty) returns (RestaurantListResponse);
+  rpc GetRestaurant (IDRequest) returns (RestaurantObject);
+  rpc UpdateRestById (RestaurantObject) returns (StatusResponse);
+  rpc DeleteRestaurantById (IDRequest) returns (StatusResponse);
+  rpc UploadPhotos (UploadPhotoRequest) returns (StatusResponse);
+  rpc DeletePhoto (DeletePhotoRequest) returns (StatusResponse);
+  rpc SearchRestaurants (SearchRequest) returns (SearchResponse);
+  rpc GetRestaurantSuggestions (SuggestionRequest) returns (RestaurantListResponse);
+}
+
+message Empty {}
+
+
+message SearchRequest {
+  string query = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+
+message SearchResponse {
+  repeated RestaurantObject restaurants = 1;
+  int32 totalPages = 2;
+}
+
+
+message SuggestionRequest {
+  string query = 1;
+}
+
+message RestaurantObject {
+  string id = 1;
+  string name = 2;
+  string address = 3;
+  string contact = 4;
+  repeated string image_urls = 5;
+}
+
+message IDRequest {
+  string id = 1;
+}
+
+message StatusResponse {
+  bool status = 1;
+}
+
+message RestaurantListResponse {
+  repeated RestaurantObject restaurants = 1;
+}
+
+
+message UploadPhotoRequest {
+  string restaurantID = 1;
+  repeated string urls = 2;
+}
+
+message DeletePhotoRequest {
+  string restaurantID = 1;
+  string url = 2;
+}

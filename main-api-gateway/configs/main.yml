@@ -1,0 +1,41 @@
+http:
+  port: 8000
+  maxHeaderBytes: 1
+  readTimeout: 10s
+  writeTimeout: 10s
+
+auth:
+  accessTokenTTL: 15m
+  refreshTokenTTL: 12h
+
+cookie:
+  ttl: 12h
+
+limiter:
+  elementLimiter: 10
+  page: 1
+
+grpc:
+  port: 4040
+  timeout: 5s
+
+
+userMicroservice:
+  host: authentication-service
+  port: 5050
+
+
+reservationMicroservice:
+  host: reservation-service
+  port: 9090
+
+
+qrMicroservice:
+  host: qrcode-service
+  port: 7070
+
+
+notificationMicroservice:
+  host: notification-service
+  port: 6060
+

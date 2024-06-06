@@ -1,0 +1,13 @@
+grpc:
+  port: 7070
+  timeout: 5s
+
+
+userMicroservice:
+  host: authentication-service
+  port: 5050
+
+
+reservationMicroservice:
+  host: reservation-service
+  port: 9090

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package qr;
+
+option go_package = "aidostt.reservista.proto_qr.v1;proto_qr";
+
+// Auth is service for managing permissions and roles.
+service QR {
+  // Generate creates new qr.
+  rpc Generate (GenerateRequest) returns (GenerateResponse);
+
+  // SignIn logs in a user and returns an auth tokens.
+  rpc Scan (ScanRequest) returns (ScanResponse);
+
+}
+
+message GenerateRequest {
+  string Content = 1;
+}
+
+message GenerateResponse {
+  bytes QR = 1;
+}
+
+message ScanRequest {
+  string UserID = 1;
+  string ReservationID = 2;
+}
+
+message ScanResponse {
+  //User Info
+  string userName = 1;
+  string userSurname = 2;
+  string userPhone = 3;
+  string userEmail = 4;
+  //Reservation Info
+  string restaurantName = 5;
+  string restaurantAddress = 6;
+  string restaurantContact = 7;
+  int32  tableID = 8;
+  string reservationTime = 9;
+}

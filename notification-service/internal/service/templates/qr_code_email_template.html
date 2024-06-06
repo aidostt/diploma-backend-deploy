@@ -1,0 +1,228 @@
+{{ define "subject" }}Your QR Code{{ end }}
+
+{{ define "plainBody" }}
+Dear {{ .User.Name }} {{ .User.Surname }},
+
+Thank you for making a reservation at {{ .Restaurant.Name }}.
+
+Here are the details of your reservation:
+
+- Name: {{ .User.Name }} {{ .User.Surname }}
+- Reservation Date: {{ .Reservation.ReservationDate }}
+- Reservation Time: {{ .Reservation.ReservationTime }}
+- Duration: 60 Mins
+- Table Number: T-{{ .Restaurant.Table }}
+
+Please scan your QR code upon arrival:
+{{ .QR }}
+Thank you for choosing us!
+
+Best regards,
+reservista
+{{ end }}
+
+{{ define "htmlBody" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Reservation Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            table-layout: fixed;
+        }
+        .ticket {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 0 auto;
+            position: relative;
+        }
+        .padding {
+            padding: 20px;
+        }
+        .padding td {
+            padding: 5px 0;
+        }
+        .qr-code {
+            margin-bottom: 20px;
+        }
+        .margin-top-20 {
+            margin-top: 20px;
+        }
+        .details {
+            text-align: left;
+            font-size: 14px;
+        }
+        .details span {
+            font-weight: bold;
+            color: #979797;
+            padding-bottom: 5px;
+        }
+        .details td {
+            width: 50%;
+            text-wrap: wrap;
+        }
+        .dash {
+            width: 85%;
+            margin: 0 auto;
+            height: 1px;
+            background: repeating-linear-gradient(
+                    90deg,
+                    #00000036,
+                    #00000036 10px,
+                    transparent 10px,
+                    transparent 20px
+            );
+        }
+        .footer {
+            color: #00000091;
+            font-size: 12px;
+        }
+        .footer p {
+            margin: 0;
+            margin-top: 5px;
+        }
+        .left-circle {
+            width: 16px;
+            height: 30px;
+            background-color: #f3f3f3;
+            border-radius: 0 150px 150px 0;
+        }
+        .right-circle {
+            width: 16px;
+            height: 30px;
+            background-color: #f3f3f3;
+            border-radius: 150px 0 0 150px;
+        }
+        .bold {
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+        .hl {
+            height: 1px;
+            width: 100%;
+            margin: 10px 0;
+            background-color: #00000017;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="background-color: #f3f3f3;">
+    <tr>
+        <td align="center">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" class="ticket" style="margin:40px auto;">
+                <tr>
+                    <td class="padding">
+                        <div class="qr-code">
+                            <img src="cid:qrcode" alt="QR Code" />
+                        </div>
+                        <p style="font-size: 14px">Please scan your QR Code in Restaurant.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td width="15%" align="left" style="padding: 0;">
+                                    <div class="left-circle"></div>
+                                </td>
+                                <td width="70%">
+                                    <div class="dash"></div>
+                                </td>
+                                <td width="15%" align="right" style="padding: 0;">
+                                    <div class="right-circle"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="padding">
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="details">
+                            <tr>
+                                <td><span>Name</span></td>
+                                <td class="bold" align="right">{{ .User.Name }} {{ .User.Surname }}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Phone Number</span></td>
+                                <td class="bold" align="right">{{ .User.Phone }}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Email</span></td>
+                                <td class="bold" align="right">{{ .User.Email }}</td>
+                            </tr>
+                        </table>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td><div class="hl"></div></td>
+                            </tr>
+                        </table>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="details">
+                            <tr>
+                                <td><span>Restaurant</span></td>
+                                <td class="bold" align="right">{{ .Restaurant.Name }}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Address</span></td>
+                                <td class="bold" align="right">{{ .Restaurant.Address }}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Contact Number</span></td>
+                                <td class="bold" align="right">{{ .Restaurant.Phone }}</td>
+                            </tr>
+                        </table>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td><div class="hl"></div></td>
+                            </tr>
+                        </table>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="details">
+                            <tr>
+                                <td><span>Reservation ID</span></td>
+                                <td class="bold" align="right">{{ .Reservation.ReservationID }}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Date</span></td>
+                                <td class="bold" align="right">{{ .Reservation.ReservationDate }}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Time</span></td>
+                                <td class="bold" align="right">{{ .Reservation.ReservationTime }}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Duration</span></td>
+                                <td class="bold" align="right">60 Mins</td>
+                            </tr>
+                            <tr>
+                                <td><span>Table Number</span></td>
+                                <td class="bold" align="right">{{ .Restaurant.Table }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="footer padding">
+                        <p>Thank you for choosing us!</p>
+                        <p>reservista</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+{{ end }}

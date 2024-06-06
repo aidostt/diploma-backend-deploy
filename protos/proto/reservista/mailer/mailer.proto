@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package mailer;
+
+option go_package = "aidostt.reservista.proto_mailer.v1;proto_mailer";
+
+// Auth is service for managing permissions and roles.
+service Mailer {
+  rpc SendWelcome (ContentInput) returns (StatusResponse);
+  rpc SendQR (QRInput) returns (StatusResponse);
+  rpc SendAuthCode (ContentInput) returns (StatusResponse);
+  rpc SendReminder (EmailInput) returns (StatusResponse);
+  rpc SendAdvert (EmailInput) returns (StatusResponse);
+  rpc SendResetCode (EmailInput) returns (StatusResponse);
+}
+
+message EmailInput {
+  string email = 1;
+}
+
+message ContentInput {
+  string email = 1;
+  string content = 2;
+}
+
+message StatusResponse {
+  bool status = 1;
+}
+
+
+message QRInput {
+  string userID = 1;
+  string reservationID = 2;
+  string QRUrlBase = 3;
+}
+
+message UserInfo {
+  string name = 1;
+  string surname = 2;
+  string phone = 3;
+  string email = 4;
+}
+message RestaurantInfo {
+  string name = 1;
+  string address = 2;
+  string contact = 3;
+  int32  tableNumber = 4;
+  string reservationTime = 5;
+}

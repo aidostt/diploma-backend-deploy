@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "aidostt.reservista.proto_user.v1;proto_user";
+
+// Auth is service for managing permissions and roles.
+service User {
+  // GetByID finds and returns user using id.
+  rpc GetByID (GetRequest) returns (UserResponse);
+
+  // GetByEmail finds and returns user using id.
+  rpc GetByEmail (GetRequest) returns (UserResponse);
+
+  // Update user information in db.
+  rpc Update (UpdateRequest) returns (StatusResponse);
+
+  // Delete removes user from db.
+  rpc Delete (GetRequest) returns (StatusResponse);
+
+  // Activate user on the site
+  rpc Activate(ActivateRequest) returns (StatusResponse);
+
+  // Sends verification code of the user
+  rpc VerificationCode(GetRequest) returns (VerificationCodeMessage);
+}
+
+
+message VerificationCodeMessage {
+  string code = 1;    // verification code.
+  string email = 2;   // user's email.
+}
+
+message GetRequest {
+  string user_id = 1;
+  string email = 2;
+}
+
+message UserResponse {
+  string name = 1;
+  string surname = 2;
+  string phone = 3;
+  string email = 4;
+  bool activated = 5;
+  repeated string roles = 6;
+}
+
+message UpdateRequest {
+  string id = 1;
+  string name = 2;
+  string surname = 3;
+  string phone = 4;
+  string email = 5;
+  string password = 6;
+  repeated string roles = 7;
+  bool activated = 8;
+}
+
+message StatusResponse {
+  bool status = 1;
+}
+
+message ActivateRequest {
+  bool activate = 1;
+  string userID = 2;
+}
+

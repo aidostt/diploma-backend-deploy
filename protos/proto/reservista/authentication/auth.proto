@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "aidostt.reservista.proto_auth.v1;proto_auth";
+
+// Auth is service for managing permissions and roles.
+service Auth {
+  // SignUp registers a new user.
+  rpc SignUp (SignUpRequest) returns (ActivationToken);
+
+  // SignIn logs in a user and returns an auth tokens.
+  rpc SignIn (SignInRequest) returns (TokenResponse);
+
+  // Refresh refreshes token pair of user and returns back new ones.
+  rpc Refresh (TokenRequest) returns (TokenResponse);
+
+  // IsAdmin checks whether a user is an admin.
+  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+
+  // CreateSession creates new session in db for given user.
+  rpc CreateSession (CreateRequest) returns (TokenResponse);
+}
+
+message CreateRequest {
+  string id = 1;
+  repeated string roles = 2;
+  bool activated = 3;
+}
+
+message IsAdminRequest {
+  string user_id = 1;    // User ID to validate.
+}
+
+message ActivationToken {
+  string activation_token = 1;    // Activation token.
+  TokenResponse tokens = 2; // Authentication tokens
+}
+
+message IsAdminResponse {
+  bool is_admin = 1;    // Indicates whether the user is an admin.
+}
+
+message SignUpRequest {
+  string name = 1;      // Name of the user to register.
+  string surname = 2;   // Surname of the user to register.
+  string phone = 3;     // Phone of the user to register.
+  string email = 4;     // Email of the user to register.
+  string password = 5;  // Password of the user to register.
+}
+
+message TokenRequest {
+  string jwt = 1;       // JWT Token of the user to use in authentication.
+  string rt = 2;        // RT Token of the user to use in authentication.
+}
+
+message TokenResponse {
+  string jwt = 1;       // JWT Token of the user to use in authentication.
+  string rt = 2;        // RT Token of the user to use in authentication.
+}
+
+message SignInRequest {
+  string email = 1;     // Email of the user to login.
+  string password = 2;  // Password of the user to login.
+  int32 app_id = 3;     // ID of the app to login to.
+}
+
+
+message Roles {
+  repeated string role = 1;
+}

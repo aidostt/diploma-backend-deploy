@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package reservation;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "aidostt.reservista.proto_reservation.v1;proto_reservation";
+
+service Reservation {
+  rpc MakeReservation (ReservationSQLRequest) returns (IDRequest);
+  rpc GetReservation (IDRequest) returns (ReservationObject);
+  rpc DeleteReservationById (IDRequest) returns (StatusResponse);
+  rpc GetAllReservationByUserId (IDRequest) returns (ReservationListResponse);
+  rpc GetAllReservationByRestaurantId(IDRequest) returns (ReservationListResponse);
+  rpc UpdateReservation (UpdateReservationRequest) returns (StatusResponse);
+  rpc GetRestaurantByReservationId (IDRequest) returns (RestaurantObject);
+  rpc GetTableByReservationId (IDRequest) returns (TableObject);
+  rpc ConfirmReservation (IDRequest) returns (StatusResponse);
+}
+
+
+message ReservationObject {
+  string id = 1;
+  string userID = 2;
+  TableObject table = 3;
+  string reservationTime = 4;
+  google.protobuf.Timestamp reservationDate = 5;
+  bool confirmed = 6;
+}
+
+message RestaurantObject {
+  string id = 1;
+  string name = 2;
+  string address = 3;
+  string contact = 4;
+}
+
+message TableObject {
+  string id = 1;
+  int32 NumberOfSeats = 2;
+  bool IsReserved = 3;
+  int32 TableNumber = 4;
+  RestaurantObject restaurant = 5;
+}
+
+
+message IDRequest {
+  string id = 1;
+}
+
+message ReservationSQLRequest {
+  string userID = 1;
+  string tableID = 2;
+  string reservationTime = 3;
+}
+
+message UpdateReservationRequest {
+  string reservationID = 1;
+  string tableID = 2;
+  string reservationTime = 3;
+  bool   confirmed = 4;
+}
+
+
+message StatusResponse {
+  bool status = 1;
+}
+
+message ReservationResponse {
+  ReservationObject reservation = 1;
+  string userID = 2;
+  TableObject table = 3;
+  string reservationTime = 4;
+}
+
+message ReservationListResponse {
+  repeated ReservationObject reservations = 1;
+}
