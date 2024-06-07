@@ -39,7 +39,7 @@ func (h *Handler) Init() *gin.Engine {
 	router.Use(
 		gin.Recovery(),
 		gin.Logger(),
-		corsMiddleware,
+		//corsMiddleware,
 	)
 
 	router.GET("/ping", func(c *gin.Context) {
